@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cambridge Scanner Pro</title>
+  <title>leakbridge papers</title>
   <script src="https://unpkg.com/tesseract.js@2.1.5/dist/tesseract.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
@@ -25,23 +25,17 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-      padding: 50px 20px;
+      padding: 40px 20px;
     }
 
-    .header { text-align: center; margin-bottom: 30px; }
-    .header h1 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 2.2rem;
-      font-weight: 400;
-      letter-spacing: 2px;
-      margin-bottom: 5px;
-    }
-    .header p { font-size: 0.9rem; opacity: 0.8; font-weight: 300; }
+    .header { text-align: center; margin-bottom: 20px; }
+    .header h1 { font-family: 'Montserrat', sans-serif; font-size: 1.4rem; letter-spacing: 2px; font-weight:400 }
+    .header h2 { font-family: 'Montserrat', sans-serif; font-size: 0.8rem; letter-spacing: 2px; font-weight:200 }
 
     #video-wrap {
       width: 100%;
       max-width: 340px;
-      height: 240px;
+      height: 220px;
       background: var(--card-bg);
       border-radius: 15px;
       position: relative;
@@ -49,17 +43,17 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.1);
     }
 
-    video { width: 100%; height: 100%; object-fit: cover; display: none; }
-    
-    #uploaded-img { width: 100%; height: 100%; object-fit: contain; display: none; background: #0b1926; }
+    video, #uploaded-img { width: 100%; height: 100%; object-fit: cover; display: none; }
+    #uploaded-img { object-fit: contain; background: #0b1926; }
 
     #aim-box {
       position: absolute;
-      width: 80%;
-      height: 55px;
+      width: 85%;
+      height: 50px;
       border: 2px solid #ffffff;
       border-radius: 10px;
       pointer-events: none;
@@ -68,79 +62,82 @@
 
     .action-row {
       display: flex;
-      gap: 10px;
-      margin-bottom: 40px;
+      gap: 8px;
+      margin-bottom: 30px;
       width: 100%;
       max-width: 340px;
-      justify-content: space-between;
     }
 
     .btn-action {
       background: transparent;
       color: white;
       border: 1.5px solid #ffffff;
-      padding: 10px 0;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-family: 'Outfit', sans-serif;
+      padding: 12px 0;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight:300;
       cursor: pointer;
-      transition: all 0.2s;
       flex: 1;
       text-align: center;
+      font-family: 'Outfit', sans-serif;
+      transition: 0.2s;
     }
-    
     .btn-action:active { background: rgba(255,255,255,0.1); transform: scale(0.96); }
-    .btn-action:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    .output-section { width: 100%; max-width: 340px; position: relative; }
+    .output-section { width: 100%; max-width: 340px; }
 
-    .output-section h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-    }
-
-    .output-box {
-      width: 100%;
-      background: linear-gradient(90deg, #004d4d 0%, #1a2a3a 100%);
+    .section-group {
+      background: rgba(0, 77, 77, 0.4);
       padding: 15px;
-      border-radius: 8px;
-      font-size: 1.1rem;
-      color: #ffffff;
-      min-height: 50px;
-      display: flex;
-      align-items: center;
-      box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.1);
+      border-radius: 12px;
+      margin-bottom: 15px;
+      border: 3px solid #ffffff;
+      position: relative;
     }
 
-    .copy-status-row {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 10px;
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.6;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .subject-sub { font-size: 0.8rem; opacity: 0.5; display: block; margin-bottom: 4px; }
+
+    #result-text { font-size: 1.1rem; font-weight: 600; display: block; line-height: 1.3; }
+
+    .pdf-btn {
+      display: none;
+      background: #ffffff;
+      color: #004d4d;
+      padding: 12px;
+      text-align: center;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      margin-top: 5px;
+      font-size: 0.9rem;
     }
 
     .toggle-btn {
       background: transparent;
-      border: 1px solid #ffffff;
+      border: 1px solid rgba(255,255,255,0.4);
       color: white;
-      padding: 5px 12px;
-      border-radius: 12px;
-      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.6rem;
       cursor: pointer;
-      font-family: 'Outfit', sans-serif;
-      transition: opacity 0.3s;
+      position: absolute;
+      right: 15px;
+      top: 12px;
     }
+    .toggle-btn.off { opacity: 0.4; }
 
-    .toggle-btn.off { opacity: 0.4; border-color: rgba(255,255,255,0.5); }
-
-    .progress-container {
-      width: 100%;
-      height: 2px;
-      background: var(--progress-bg);
-      margin-top: 10px;
-    }
-    #bar { height: 100%; background: #ffffff; width: 0%; transition: width 0.1s; }
-    .progress-label { font-size: 0.7rem; margin-top: 5px; opacity: 0.7; }
+    .progress-container { width: 100%; height: 2px; background: var(--progress-bg); margin-top: 10px; }
+    #bar { height: 100%; background: #ffffff; width: 0%; transition: width 0.2s; }
 
     canvas { display: none; }
   </style>
@@ -148,34 +145,37 @@
 <body>
 
   <div class="header">
-    <h1>CAMBRIGE IS GAY</h1>
-    <p>idk man how i created ts it happened</p>
+    <h1>leakbridge papers/h1>
+    <h2>crazy how the world works</h2>
   </div>
 
   <div id="video-wrap">
     <video id="video" autoplay playsinline muted></video>
-    <img id="uploaded-img" alt="Uploaded paper code preview">
+    <img id="uploaded-img">
     <div id="aim-box"></div>
-    <div id="loading-msg">Camera Off</div>
   </div>
 
   <div class="action-row">
-    <button class="btn-action" id="main-btn" onclick="handleFlow()">scan</button>
-    <label class="btn-action" for="file-upload" style="cursor: pointer; display: flex; align-items: center; justify-content: center;">upload</label>
+    <button class="btn-action" id="main-btn" onclick="handleFlow()">Scan</button>
+    <label class="btn-action" for="file-upload" style="cursor: pointer; display: flex; align-items: center; justify-content: center;">Upload</label>
     <input type="file" id="file-upload" accept="image/*" style="display: none;" onchange="handleFileUpload(event)">
-    <button class="btn-action" onclick="handleManualPaste()">paste</button>
+    <button class="btn-action" onclick="handleManualPaste()">Paste</button>
   </div>
 
   <div class="output-section">
-    <h2>Output</h2>
-    <div class="output-box" id="result-text">output here</div>
-    
-    <div class="copy-status-row">
-      <button class="toggle-btn off" id="copy-toggle" onclick="toggleCopy()">auto copy off</button>
+    <div class="section-group">
+      <span class="section-title">For Rove</span>
+      <button class="toggle-btn off" id="copy-toggle" onclick="toggleCopy()">Auto-Copy Off</button>
+      <span class="subject-sub" id="subject-display">Subject: ----</span>
+      <span id="result-text">Ready...</span>
+    </div>
+
+    <div class="section-group">
+      <span class="section-title">For Papa Cambridge</span>
+      <a id="pdf-link" class="pdf-btn" target="_blank">OPEN PDF</a>
     </div>
 
     <div class="progress-container"><div id="bar"></div></div>
-    <p class="progress-label">progress bar</p>
   </div>
 
   <canvas id="canvas"></canvas>
@@ -186,192 +186,130 @@
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     const resultEl = document.getElementById('result-text');
+    const subjectEl = document.getElementById('subject-display');
+    const pdfLink = document.getElementById('pdf-link');
     const mainBtn = document.getElementById('main-btn');
     const bar = document.getElementById('bar');
     const copyToggle = document.getElementById('copy-toggle');
-    const aimBox = document.getElementById('aim-box');
     
-    let stream = null;
-    let worker = null;
-    let isCameraOn = false;
-    let currentMode = 'camera'; 
-    let autoCopy = false;
+    let stream = null, worker = null, isCameraOn = false, currentMode = 'camera', autoCopy = false;
 
-    // --- CORE LOGIC: Converts text into Cambridge format ---
     function parseCode(text) {
-      const clean = text.toUpperCase().replace(/[^0-9A-Z]/g, ' ');
+      // Clean text for regex processing
+      const clean = text.toUpperCase().replace(/[^A-Z0-9_]/g, ' ').trim();
       
-      // Pattern 1: Modern format with variants (e.g., 9709/52/F/M/20)
-      const mNew = clean.match(/(\d{4})\s*([1-8])\s*([1-6])\s*([MFJON0](?:\s*[MFJON0]){0,3})\s*(?:20)?(\d{2})/);
-      
-      // Pattern 2: Legacy pre-2010 format without variants (e.g., 9709/01/O/N/04)
-      const mOld = clean.match(/(\d{4})\s*0([1-8])\s*([MFJON0](?:\s*[MFJON0]){0,3})\s*(?:20)?(\d{2})/);
-      
-      let res = "";
+      let resText = "", urlPart = "";
+      let sub = "9709", pap = "", varnt = "", seas = "", yr = "", type = "ms";
 
-      if (mNew) {
-        let s = mNew[4].replace(/\s+/g, '');
-        let sName = s.includes('J') ? "Summer" : ((s.includes('O') || s.includes('N') || s.includes('0')) ? "Winter" : "March");
-        res = `Paper ${mNew[2]} Variant ${mNew[3]} ${sName} 20${mNew[5]}`;
-      } else if (mOld) {
-        let s = mOld[3].replace(/\s+/g, '');
-        let sName = s.includes('J') ? "Summer" : ((s.includes('O') || s.includes('N') || s.includes('0')) ? "Winter" : "March");
-        // Outputs without the "Variant" string
-        res = `Paper ${mOld[2]} ${sName} 20${mOld[4]}`;
-      }
-      
-      if (res) {
-        resultEl.textContent = res;
+      // Pattern 1: Filename (9709_S25_QP_12)
+      const mUnder = clean.match(/(\d{4})?_?([MSW])(\d{2})_(QP|MS)_(\d)(\d)/);
+      // Pattern 2: Modern Slash (9709 1 2 M J 25)
+      const mSlash = clean.match(/(\d{4})?\s*([1-8])\s*([1-6])\s*([MFJONW])\s*([MFJONW])?\s*(?:20)?(\d{2})/);
+      // Pattern 3: Legacy (9709 01 O N 05)
+      const mLegacy = clean.match(/(\d{4})?\s*0([1-8])\s*([MFJONW])\s*([MFJONW])?\s*(?:20)?(\d{2})/);
+
+      if (mUnder) {
+        sub = mUnder[1] || "9709"; 
+        seas = mUnder[2].toLowerCase(); 
+        yr = mUnder[3]; type = mUnder[4].toLowerCase(); pap = mUnder[5]; varnt = mUnder[6];
+      } 
+      else if (mSlash || mLegacy) {
+        const match = mSlash || mLegacy;
+        sub = match[1] || "9709";
+        pap = match[2];
         
-        if(autoCopy) {
-          navigator.clipboard.writeText(res).then(() => {
-              const originalText = copyToggle.textContent;
-              copyToggle.textContent = 'COPIED!';
-              setTimeout(() => { copyToggle.textContent = originalText; }, 1000);
-          });
+        const fullBlock = clean; 
+        if (fullBlock.includes("M J") || fullBlock.includes("MJ") || fullBlock.includes(" S ")) {
+            seas = "s";
+        } else if (fullBlock.includes("O N") || fullBlock.includes("ON") || fullBlock.includes(" W ")) {
+            seas = "w";
+        } else if (fullBlock.includes("F M") || fullBlock.includes("FM") || fullBlock.includes(" M ")) {
+            seas = "m";
+        } else {
+            let s = match[4];
+            seas = (s === 'M' || s === 'F') ? 'm' : ((s === 'J' || s === 'S') ? 's' : 'w');
         }
+        varnt = match[3] || "1";
+        yr = match[6] || match[5];
+      }
+
+      if (seas && pap) {
+        let typeName = (type === 'qp') ? "Question Paper" : "Mark Scheme";
+        let sName = (seas === 'm') ? "March" : (seas === 's' ? "Summer" : "Winter");
+        resText = `${typeName} Paper ${pap}${varnt !== "1" ? " Variant " + varnt : ""} ${sName} 20${yr}`;
+        urlPart = `${sub}_${seas}${yr}_${type}_${pap}${varnt}`;
+        
+        subjectEl.textContent = `Subject: ${sub}`;
+        resultEl.textContent = resText;
+        pdfLink.href = `https://pastpapers.papacambridge.com/directories/CAIE/CAIE-pastpapers/upload/${urlPart}.pdf`;
+        pdfLink.style.display = 'block';
+        if(autoCopy) navigator.clipboard.writeText(resText);
       } else {
         resultEl.textContent = "No valid code found";
+        pdfLink.style.display = 'none';
+        subjectEl.textContent = "Subject: ----";
       }
     }
 
-    // --- DESKTOP PASTE (Ctrl+V) ---
-    window.addEventListener('paste', e => {
-      const clipboardData = e.clipboardData || window.clipboardData;
-      
-      const pastedText = clipboardData.getData('Text');
-      if (pastedText && pastedText.trim() !== '') {
-        parseCode(pastedText);
-        return; 
-      }
-
-      const items = clipboardData.items;
-      for (let index in items) {
-        if (items[index].kind === 'file') {
-          processImageFile(items[index].getAsFile());
-          return;
-        }
-      }
-    });
-
-    // --- MOBILE / BUTTON PASTE ---
     async function handleManualPaste() {
       try {
-        const clipboardItems = await navigator.clipboard.read();
-        
-        for (const item of clipboardItems) {
-          if (item.types.includes('text/plain')) {
-            const blob = await item.getType('text/plain');
-            const text = await blob.text();
-            if (text.trim()) {
-              parseCode(text);
-              return; 
-            }
-          }
-          
-          const imageTypes = item.types.filter(type => type.startsWith('image/'));
-          for (const type of imageTypes) {
-            const blob = await item.getType(type);
-            processImageFile(blob);
-            return; 
-          }
-        }
-        alert("No text or image found in your clipboard!");
-        
-      } catch (err) {
-        try {
-           const fallbackText = await navigator.clipboard.readText();
-           if(fallbackText.trim()) {
-               parseCode(fallbackText);
-               return;
-           }
-        } catch(e) {
-           alert("Unable to paste. Please make sure you granted clipboard permissions.");
-        }
-      }
+        const text = await navigator.clipboard.readText();
+        if(text) parseCode(text);
+      } catch(e) { alert("Enable clipboard permissions"); }
     }
 
     function toggleCopy() {
       autoCopy = !autoCopy;
-      if (autoCopy) {
-        copyToggle.textContent = 'auto copy on';
-        copyToggle.classList.remove('off');
-      } else {
-        copyToggle.textContent = 'auto copy off';
-        copyToggle.classList.add('off');
-      }
+      copyToggle.textContent = autoCopy ? "Auto-Copy On" : "Auto-Copy Off";
+      copyToggle.classList.toggle('off', !autoCopy);
     }
 
     function handleFileUpload(event) {
-      if (event.target.files[0]) processImageFile(event.target.files[0]);
-    }
-
-    function processImageFile(blob) {
-      const url = URL.createObjectURL(blob);
-      uploadedImg.src = url;
-      uploadedImg.onload = () => {
-        if (stream) { stream.getTracks().forEach(t => t.stop()); isCameraOn = false; }
-        
-        video.style.display = 'none';
-        uploadedImg.style.display = 'block';
-        document.getElementById('loading-msg').style.display = 'none';
-        aimBox.style.display = 'none'; 
-        
-        currentMode = 'image';
-        mainBtn.textContent = "scan image";
+      if (event.target.files[0]) {
+        const url = URL.createObjectURL(event.target.files[0]);
+        uploadedImg.src = url;
+        uploadedImg.onload = () => {
+          if (stream) stream.getTracks().forEach(t => t.stop());
+          isCameraOn = false; video.style.display = 'none'; uploadedImg.style.display = 'block';
+          currentMode = 'image'; mainBtn.textContent = "Scan Image";
+        }
       }
     }
 
     async function handleFlow() {
       if (currentMode === 'camera' && !isCameraOn) {
-        mainBtn.textContent = "starting...";
         await initWorker();
         try {
-          stream = await navigator.mediaDevices.getUserMedia({ 
-            video: { facingMode: 'environment', width: { ideal: 1280 } } 
-          });
-          video.srcObject = stream;
-          video.style.display = 'block';
-          uploadedImg.style.display = 'none';
-          document.getElementById('loading-msg').style.display = 'none';
-          aimBox.style.display = 'block';
-          isCameraOn = true;
-          mainBtn.textContent = "scan";
-        } catch (e) { alert("Camera access denied"); mainBtn.textContent = "scan"; }
-      } else {
-        await initWorker(); 
-        scan();
-      }
+          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment', width: { ideal: 1280 } } });
+          video.srcObject = stream; video.style.display = 'block'; uploadedImg.style.display = 'none';
+          isCameraOn = true; mainBtn.textContent = "Scan Now";
+        } catch(e) { alert("Camera Error"); }
+      } else { scan(); }
     }
 
     async function initWorker() {
       if (worker) return;
-      worker = Tesseract.createWorker({
-        logger: m => { if(m.status === 'recognizing text') bar.style.width = (m.progress * 100) + '%'; }
-      });
-      await worker.load();
-      await worker.loadLanguage('eng');
-      await worker.initialize('eng');
-      await worker.setParameters({ tessedit_char_whitelist: '0123456789MFJONmfjon/\\-.,;:_[]{}\| ' });
+      worker = Tesseract.createWorker({ logger: m => { if(m.status === 'recognizing text') bar.style.width = (m.progress * 100) + '%'; } });
+      await worker.load(); await worker.loadLanguage('eng'); await worker.initialize('eng');
+      
+      // FIX: Added F, J, O, N to the whitelist so the engine can actually "see" the sessions
+      await worker.setParameters({ tessedit_char_whitelist: '0123456789MSWQPFJONmswqpfjon/_ ' });
     }
 
     function scan() {
       mainBtn.disabled = true;
+      const source = currentMode === 'image' ? uploadedImg : video;
       
-      if (currentMode === 'image') {
-        canvas.width = uploadedImg.naturalWidth;
-        canvas.height = uploadedImg.naturalHeight;
-        ctx.filter = 'grayscale(100%) contrast(300%) brightness(110%)';
-        ctx.drawImage(uploadedImg, 0, 0);
-      } else if (isCameraOn) {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        ctx.filter = 'grayscale(100%) contrast(300%) brightness(110%)';
-        ctx.drawImage(video, 0, 0);
-      } else {
-        mainBtn.disabled = false;
-        return;
-      }
+      // SPEED FIX: Downscale the image before running OCR
+      const w = source.naturalWidth || source.videoWidth;
+      const h = source.naturalHeight || source.videoHeight;
+      const scale = Math.min(1, 800 / w); // Caps width at 800px max
+      
+      canvas.width = w * scale;
+      canvas.height = h * scale;
+      
+      ctx.filter = 'grayscale(100%) contrast(250%) brightness(110%)';
+      ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
       
       worker.recognize(canvas).then(({ data: { text } }) => {
         parseCode(text);
